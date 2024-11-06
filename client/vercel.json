@@ -1,0 +1,12 @@
+{
+    "rewrites" : [
+        {
+            "source" : "/api/:match*",
+            "destination" : "https://star-soil.vercel.app/api/:match*"
+        },
+        {
+            "source" : "/(.*)",
+            "destination" : "/"
+        }
+    ]
+}
