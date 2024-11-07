@@ -80,8 +80,10 @@ function HomePage() {
                   <span>{format(Number((Math.min(planet.collectedAmount/5000, planet.targetAmount/5000)).toFixed(2)))} acres claimed out of {format(Number((planet.targetAmount/5000).toFixed(2)))} acres</span>
                 </div>  
                 <div className="mt-3 text-center">
-                  <span className={`font-medium ${planet.isActive ? 'text-slate-800' : 'text-orange-500'}`}>
-                    {planet.isActive ? 'Sale!' : 'Not For Sale!'}
+                  <span className={`font-medium ${planet.isActive && planet.collectedAmount < planet.targetAmount ? 'text-slate-800' : 'text-orange-500'}`}>
+                    {planet.isActive ? 
+                      (planet.collectedAmount < planet.targetAmount ? 'Sale!' : 'No Land Left!') 
+                      : 'Not For Sale!'}
                   </span>
                 </div>
               </div>

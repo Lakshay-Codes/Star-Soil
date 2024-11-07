@@ -29,6 +29,10 @@ function PaymentsCard({planet, reloadPlanetData}:{planet:PlanetTypeProps, reload
     const getClientSecretToken= async()=>{
         try {
             setLoading(true);
+            if(planet.collectedAmount>=planet.targetAmount){
+                AntDMessage.error("No land left!");
+                return;
+            }
             if(!planet.isActive){
                 AntDMessage.error("This celestial body is not available for purchase");
                 return ;

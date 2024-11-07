@@ -62,7 +62,7 @@ function PaymentsPage() {
       key : 'amount',
       render : (_text: string, record: PaymentTypeProps) => (
         <span className="font-semibold text-green-600">
-          ₹{format(record.amount)}
+          ₹{format(Number(record.amount.toFixed(2)))}
         </span>
       )
     },

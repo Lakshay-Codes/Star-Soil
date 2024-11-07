@@ -54,7 +54,7 @@ function AdminReportsPage() {
                   <tr key={payment._id} className="hover:bg-indigo-50 transition-colors">
                     <td className="px-6 py-4 text-sm text-indigo-600">{payment.planet || 'N/A'}</td>
                     <td className="px-6 py-4 text-sm text-indigo-600">{payment.user || 'N/A'}</td>
-                    <td className="px-6 py-4 text-sm font-medium text-emerald-600">₹{format(payment.amount)}</td>
+                    <td className="px-6 py-4 text-sm font-medium text-emerald-600">₹{format(Number(payment.amount.toFixed(2)))}</td>
                     <td className="px-6 py-4 text-sm font-medium text-emerald-600">{(payment.amount / PRICE_PER_ACRE).toFixed(2)}</td>
                     <td className="px-6 py-4 text-sm text-indigo-500">{dayjs(payment.createdAt).format('MMMM DD, YYYY hh:mm A')}</td>
                   </tr>
@@ -67,23 +67,23 @@ function AdminReportsPage() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
           <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-indigo-100 hover:shadow-xl transition-all">
             <h2 className="text-xl font-semibold text-indigo-900 mb-3">Total Planets</h2>
-            <p className="text-4xl font-bold text-indigo-600">{reports.totalPlanets}</p>
+            <p className="text-4xl font-bold text-indigo-600">{Number(reports.totalPlanets.toFixed(2))}</p>
           </div>
           <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-blue-100 hover:shadow-xl transition-all">
             <h2 className="text-xl font-semibold text-blue-900 mb-3">Total Users</h2>
-            <p className="text-4xl font-bold text-blue-600">{reports.totalUsers}</p>
+            <p className="text-4xl font-bold text-blue-600">{Number(reports.totalUsers.toFixed(2))}</p>
           </div>
           <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-violet-100 hover:shadow-xl transition-all">
             <h2 className="text-xl font-semibold text-violet-900 mb-3">Total Revenue</h2>
             <div className="flex flex-col">
-              <p className="text-4xl font-bold text-violet-600">₹{format(reports.totalAmount)}</p>
+              <p className="text-4xl font-bold text-violet-600">₹{format(Number(reports.totalAmount.toFixed(2)))}</p>
               <p className="text-sm text-violet-500 mt-2">Land Sold: {totalLandInAcres.toFixed(2)} acres</p>
-              <p className="text-xs text-violet-400">@₹{format(PRICE_PER_ACRE)}/acre</p>
+              <p className="text-xs text-violet-400">@₹{format(Number(PRICE_PER_ACRE.toFixed(2)))}/acre</p>
             </div>
           </div>
           <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-purple-100 hover:shadow-xl transition-all">
             <h2 className="text-xl font-semibold text-purple-900 mb-3">Total Transactions</h2>
-            <p className="text-4xl font-bold text-purple-600">{reports.totalPayments}</p>
+            <p className="text-4xl font-bold text-purple-600">{Number(reports.totalPayments.toFixed(2))}</p>
           </div>
         </div>
       </div>

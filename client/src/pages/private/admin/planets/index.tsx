@@ -59,15 +59,15 @@ function PlanetPage() {
     },
     {
       title: "Surface Area (acres)",
-      dataIndex: "targetAmount",
+      dataIndex: "targetAmount", 
       key: "targetAmount",
-      render: (targetAmount: number) => format(targetAmount / 5000),
+      render: (targetAmount: number) => format(Number((targetAmount / 5000).toFixed(2))),
     },
     {
       title: "Settled Area (acres)",
       dataIndex: "collectedAmount",
-      key: "collectedAmount",
-      render: (collectedAmount: number) => format(collectedAmount / 5000),
+      key: "collectedAmount", 
+      render: (collectedAmount: number) => format(Number((collectedAmount / 5000).toFixed(2))),
     },
     {
       title: "Classification",
@@ -149,7 +149,7 @@ function PlanetPage() {
             dataSource={planets}
             loading={loading}
             pagination={{
-              pageSize: 12,
+              pageSize: 5,
               showTotal: (total) => `${total} celestial bodies found`
             }}
           />

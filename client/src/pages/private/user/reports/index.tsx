@@ -16,7 +16,7 @@ function UserReportsPage() {
   });
 
   const PRICE_PER_ACRE = 5000;
-  const totalLandInAcres = reports.totalAmount / PRICE_PER_ACRE;
+  const totalLandInAcres = (reports.totalAmount / PRICE_PER_ACRE).toFixed(2);
 
   const getData = async () => {
     try {
@@ -52,7 +52,7 @@ function UserReportsPage() {
                 {reports.recentThreePayments?.map((payment: any) => (
                   <tr key={payment._id} className="hover:bg-indigo-50 transition-colors">
                     <td className="px-6 py-4 text-sm text-indigo-600">{payment.planet?.name || 'N/A'}</td>
-                    <td className="px-6 py-4 text-sm font-medium text-emerald-600">₹{format(payment.amount)}</td>
+                    <td className="px-6 py-4 text-sm font-medium text-emerald-600">₹{format(Number(payment.amount.toFixed(2)))}</td>
                     <td className="px-6 py-4 text-sm font-medium text-emerald-600">{(payment.amount / PRICE_PER_ACRE).toFixed(2)}</td>
                     <td className="px-6 py-4 text-sm text-indigo-500">{dayjs(payment.createdAt).format('MMMM DD, YYYY hh:mm A')}</td>
                   </tr>
@@ -71,9 +71,9 @@ function UserReportsPage() {
           <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-violet-100 hover:shadow-xl transition-all">
             <h2 className="text-xl font-semibold text-violet-900 mb-3">Total Investment</h2>
             <div className="flex flex-col">
-              <p className="text-4xl font-bold text-violet-600">₹{format(reports.totalAmount)}</p>
-              <p className="text-sm text-violet-500 mt-2">Land Owned: {totalLandInAcres.toFixed(2)} acres</p>
-              <p className="text-xs text-violet-400">@₹{format(PRICE_PER_ACRE)}/acre</p>
+              <p className="text-4xl font-bold text-violet-600">₹{format(Number(reports.totalAmount.toFixed(2)))}</p>
+              <p className="text-sm text-violet-500 mt-2">Land Owned: {totalLandInAcres} acres</p>
+              <p className="text-xs text-violet-400">@₹{format(Number(PRICE_PER_ACRE.toFixed(2)))}/acre</p>
             </div>
           </div>
 

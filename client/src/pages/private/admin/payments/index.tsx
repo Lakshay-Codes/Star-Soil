@@ -72,7 +72,7 @@ function AdminPaymentsPage() {
       className: "text-sm font-medium text-green-600",
       render : (_text: string, record: PaymentTypeProps) => (
         <div>
-          <div>₹{format(record.amount)}</div>
+          <div>₹{format(Number(record.amount.toFixed(2)))}</div>
           <div className="text-xs text-gray-500">
             {(record.amount / PRICE_PER_ACRE).toFixed(2)} acres
           </div>
@@ -96,7 +96,7 @@ function AdminPaymentsPage() {
             rowKey="_id"
             className="border border-gray-200 rounded-lg"
             pagination={{
-              pageSize: 10,
+              pageSize: 5,
               showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} payments`
             }}
           />
