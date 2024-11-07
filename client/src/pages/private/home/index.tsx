@@ -43,9 +43,9 @@ function HomePage() {
         </div>
       )}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-5">
-        {planets.map((planet, index) => (
+        {planets.map((planet) => (
           <div
-            key={index}
+            key={planet._id}
             className="bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer border border-gray-200 hover:border-slate-800"
             onClick={() => navigate(`/planet/${planet._id}`)}
           >
@@ -69,18 +69,20 @@ function HomePage() {
               <div className="mt-2">
                 <div className="flex justify-between text-sm text-gray-600 mb-1">
                   <span>Land Claimed</span>
-                  <span>{Math.floor((planet.collectedAmount / planet.targetAmount) * 100)}%</span>
+                  <span>{Math.min(100, Number(((planet.collectedAmount / planet.targetAmount) * 100).toFixed(2)))}%</span>
                 </div>
                 <Progress
-                  percent={Math.floor((planet.collectedAmount / planet.targetAmount) * 100)}
+                  percent={Math.min(100, Number(((planet.collectedAmount / planet.targetAmount) * 100).toFixed(2)))}
                   strokeColor="#1e293b"
                   showInfo={false}
                 />
                 <div className="flex justify-between text-sm text-gray-600 mt-1">
-                  <span>{format(planet.collectedAmount/5000)} acres claimed out of {format(planet.targetAmount/5000)} acres</span>
-                </div>
+                  <span>{format(Number((Math.min(planet.collectedAmount/5000, planet.targetAmount/5000)).toFixed(2)))} acres claimed out of {format(Number((planet.targetAmount/5000).toFixed(2)))} acres</span>
+                </div>  
                 <div className="mt-3 text-center">
-                  <span className="text-slate-800 font-medium">Sale!</span>
+                  <span className={`font-medium ${planet.isActive ? 'text-slate-800' : 'text-orange-500'}`}>
+                    {planet.isActive ? 'Sale!' : 'Not For Sale!'}
+                  </span>
                 </div>
               </div>
             </div>

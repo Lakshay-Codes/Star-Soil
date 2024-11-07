@@ -13,6 +13,7 @@ export interface PlanetTypeProps {
     name: string;
     description: string;
     images: string[];
+    isActive:boolean;
     category: string;
     createdAt: string;
     updatedAt: string;

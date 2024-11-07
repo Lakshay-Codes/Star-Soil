@@ -90,8 +90,7 @@ function CheckoutForm({
                     <h1>Note:</h1>
                     <hr/>
                     <p>1) Dummy pincode must be of 5 digits</p>
-                    <p>2) 123 is the dummy security code</p>
-                    <p>3) 4242 4242 4242 4242 is the dummy valid credit card number</p>
+                    <p>2) 4242 4242 4242 4242 is the dummy valid credit card number</p>
             </form>
         </Modal>
     );

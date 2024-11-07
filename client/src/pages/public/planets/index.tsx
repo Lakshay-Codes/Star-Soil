@@ -69,9 +69,9 @@ function PublicPlanetsPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-5">
-            {planets.map((planet, index) => (
+            {planets.map((planet) => (
               <div
-                key={planet._id || index}
+                key={planet._id}
                 className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 border-2 border-gray-100 hover:border-primary cursor-pointer transform hover:-translate-y-1"
                 onClick={() => navigate("/login")}
               >
@@ -99,24 +99,19 @@ function PublicPlanetsPage() {
                   <div className="mt-3">
                     <div className="flex justify-between text-sm font-medium text-gray-700 mb-2">
                       <span>Land Claimed</span>
-                      <span>{Math.min(Math.floor((planet.collectedAmount / planet.targetAmount) * 100), 100)}%</span>
+                      <span>{Math.min(100, Number(((planet.collectedAmount / planet.targetAmount) * 100).toFixed(2)))}%</span>
                     </div>
                     <Progress
-                      percent={Math.min(Math.floor((planet.collectedAmount / planet.targetAmount) * 100), 100)}
-                      strokeColor={{
-                        '0%': '#1e293b',
-                        '100%': '#0f172a',
-                      }}
+                      percent={Math.min(100, Number(((planet.collectedAmount / planet.targetAmount) * 100).toFixed(2)))}
+                      strokeColor="#000000"
                       showInfo={false}
-                      className="mb-2"
-                      strokeWidth={8}
                     />
                     <div className="flex justify-between text-sm text-gray-600 mt-2">
                       <span className="font-medium">
-                        {format(Math.floor(planet.collectedAmount/5000))} acres claimed
+                        {format(Number((Math.min(planet.collectedAmount/5000, planet.targetAmount/5000)).toFixed(2)))} acres claimed
                       </span>
                       <span className="text-gray-500">
-                        of {format(Math.floor(planet.targetAmount/5000))} acres
+                        of {format(Number((planet.targetAmount/5000).toFixed(2)))} acres
                       </span>
                     </div>
                     <div className="mt-6">
@@ -124,10 +119,6 @@ function PublicPlanetsPage() {
                         type="primary" 
                         size="large" 
                         className="w-full hover:scale-105 transition-transform h-12 text-base font-medium"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          navigate("/login");
-                        }}
                       >
                         Login to Purchase
                       </Button>

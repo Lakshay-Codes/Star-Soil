@@ -13,8 +13,8 @@ const stripePublishableKey = 'pk_test_51QFZkn08gVjZaMTH2il5gO7pKCGDRzX2LaAeBqAvx
 const stripePromise = loadStripe(stripePublishableKey);
 
 function PaymentsCard({planet, reloadPlanetData}:{planet:PlanetTypeProps, reloadPlanetData:()=>void}) {
-    const [acres, setAcres] = useState(1); // Default 1 acre
-    const [message, setMessage] = useState('');
+    const [acres, setAcres] = useState(1);
+    const [message, setMessage] = useState('Happy buying!');
     const [loading, setLoading] = useState(false);
     const [clientSecret, setClientSecret] = useState('');
     const [open, setOpen] = useState(false);
@@ -29,6 +29,10 @@ function PaymentsCard({planet, reloadPlanetData}:{planet:PlanetTypeProps, reload
     const getClientSecretToken= async()=>{
         try {
             setLoading(true);
+            if(!planet.isActive){
+                AntDMessage.error("This celestial body is not available for purchase");
+                return ;
+            }
             const amountInDollar = await Convert(amount).from("INR").to("USD");
             const response = await axios.post(`/api/stripePayments/create-payment-intent`, {amount:amountInDollar});
             setClientSecret(response.data.clientSecret);
@@ -49,9 +53,9 @@ function PaymentsCard({planet, reloadPlanetData}:{planet:PlanetTypeProps, reload
             <div className="p-5 border border-solid border-gray-300">
                 <div className="px-2 pb-2">
                     <h2 className="text-xl font-bold text-gray-800 mb-4">Purchase Space Land</h2>
-                    <Progress percent={Math.floor((planet.collectedAmount/ planet.targetAmount)*100)} />
+                    <Progress percent={Number(((planet.collectedAmount / planet.targetAmount) * 100).toFixed(2))} strokeColor="#000000" />
                     <h1 className="text-sm text-black-500 mt-1">
-                        {format(planet.collectedAmount/5000)} acres claimed out of {format(planet.targetAmount/5000)} acres
+                        {format(Number((Math.min(planet.collectedAmount/5000, planet.targetAmount/5000)).toFixed(2)))} acres claimed out of {format(Number((planet.targetAmount/5000).toFixed(2)))} acres
                     </h1>
                     <div className="flex flex-col mt-7">
                         <label htmlFor="" className="text-base text-gray-500">

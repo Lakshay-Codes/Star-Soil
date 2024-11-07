@@ -6,12 +6,13 @@ import dayjs from "dayjs";
 import { format } from "indian-number-format";
 
 function AdminReportsPage() {
-  const [reports,setReports] = useState({
-    totalUsers:0,
-    totalPlanets:0,
-    totalAmount:0,
-    totalPayments:0,
-    lastFivePayments:[],
+  const [reports, setReports] = useState({
+    totalUsers: 0,
+    totalPlanets: 0,
+    totalAmount: 0,
+    totalPayments: 0,
+    payments: [],
+    recentFivePayments: [],
   });
 
   const PRICE_PER_ACRE = 5000;
@@ -20,16 +21,15 @@ function AdminReportsPage() {
   const getData = async () => {
     try {
       const response = await axios.get("/api/reports/admin-reports");
-      console.log(response.data.data);
       setReports(response.data.data);
-    } catch (error:any) {
+    } catch (error: any) {
       message.error(error.message);
     }
   }
 
   useEffect(() => {
     getData();
-  },[]);
+  }, []);
 
   return (
     <App>
@@ -50,7 +50,7 @@ function AdminReportsPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-indigo-100">
-                {reports.lastFivePayments?.map((payment: any) => (
+                {reports.recentFivePayments?.map((payment: any) => (
                   <tr key={payment._id} className="hover:bg-indigo-50 transition-colors">
                     <td className="px-6 py-4 text-sm text-indigo-600">{payment.planet || 'N/A'}</td>
                     <td className="px-6 py-4 text-sm text-indigo-600">{payment.user || 'N/A'}</td>

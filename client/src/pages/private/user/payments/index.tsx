@@ -5,6 +5,7 @@ import userStore, { UserStoreProps } from "../../../../store/users-store";
 import { App, message, Table } from "antd";
 import axios from "axios";
 import dayjs from "dayjs";
+import { format } from "indian-number-format";
 
 function PaymentsPage() {
   const [payments, setPayments] = useState<PaymentTypeProps[]>([]);
@@ -61,7 +62,17 @@ function PaymentsPage() {
       key : 'amount',
       render : (_text: string, record: PaymentTypeProps) => (
         <span className="font-semibold text-green-600">
-          ₹{record.amount.toLocaleString()}
+          ₹{format(record.amount)}
+        </span>
+      )
+    },
+    {
+      title : 'Acres Acquired',
+      dataIndex : 'amount',
+      key : 'acres',
+      render : (_text: string, record: PaymentTypeProps) => (
+        <span className="font-medium text-gray-700">
+          {format(Number((record.amount / 5000).toFixed(2)))} acres
         </span>
       )
     }

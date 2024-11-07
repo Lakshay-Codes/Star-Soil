@@ -9,9 +9,10 @@ import { format } from "indian-number-format";
 function UserReportsPage() {
   const { currentUser } = userStore() as { currentUser: { _id: string } };
   const [reports, setReports] = useState({
+    totalPlanetsLandAcquired: 0,
     totalAmount: 0,
     totalPayments: 0,
-    lastFivePayments: [],
+    recentThreePayments: [],
   });
 
   const PRICE_PER_ACRE = 5000;
@@ -48,7 +49,7 @@ function UserReportsPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-indigo-100">
-                {reports.lastFivePayments?.map((payment: any) => (
+                {reports.recentThreePayments?.map((payment: any) => (
                   <tr key={payment._id} className="hover:bg-indigo-50 transition-colors">
                     <td className="px-6 py-4 text-sm text-indigo-600">{payment.planet?.name || 'N/A'}</td>
                     <td className="px-6 py-4 text-sm font-medium text-emerald-600">₹{format(payment.amount)}</td>
@@ -77,8 +78,8 @@ function UserReportsPage() {
           </div>
 
           <div className="bg-white p-6 rounded-xl shadow-lg hover:shadow-purple-100 hover:shadow-xl transition-all">
-            <h2 className="text-xl font-semibold text-purple-900 mb-3">Portfolio Status</h2>
-            <p className="text-4xl font-bold text-purple-600">Active</p>
+            <h2 className="text-xl font-semibold text-purple-900 mb-3">Total Planets</h2>
+            <p className="text-4xl font-bold text-purple-600">{reports.totalPlanetsLandAcquired}</p>
           </div>
         </div>
       </div>

@@ -8,10 +8,11 @@ const router = express.Router();
 
 router.get('/admin-reports',authenticationMiddleware, async (req,res) =>{
     try{
-        const [totalUsers, totalPlanets, payments] = await Promise.all([
+        const [totalUsers, totalPlanets, payments, recentFivePayments] = await Promise.all([
             UserModel.countDocuments({}),
             PlanetModel.countDocuments({}),
-            PaymentModel.find({}).sort({createdAt:-1})
+            PaymentModel.find({}).sort({createdAt:-1}),
+            PaymentModel.find({}).sort({createdAt:-1}).limit(5)
         ]);    
         const response = {
             totalUsers,
@@ -20,7 +21,7 @@ router.get('/admin-reports',authenticationMiddleware, async (req,res) =>{
             totalAmount: payments.reduce(
                 (acc,payment) => acc + payment.amount,0
             ),
-            lastFivePayments:payments.slice(-5)
+            recentFivePayments: recentFivePayments
         }
         return res.status(200).json({
             success: true,
@@ -37,16 +38,20 @@ router.get('/admin-reports',authenticationMiddleware, async (req,res) =>{
 
 router.get('/user-reports/:id',authenticationMiddleware, async (req,res) =>{
     try{
-        const [ totalPlanets, payments] = await Promise.all([
-            PlanetModel.countDocuments({organizer: req.params.id}),
-            PaymentModel.find({user: req.params.id}).populate('planet').sort({createdAt:-1})
-        ]);    
+        const payments = await PaymentModel.find({user: req.params.id}).populate('planet').sort({createdAt:-1});
+        
+        const distinctPlanetIds = [...new Set(payments.map(payment => payment.planet?._id.toString()))];
+        const totalPlanetsLandAcquired = distinctPlanetIds.length;
+
+        const recentThreePayments = payments.slice(0, 3);
+
         const response = {
+            totalPlanetsLandAcquired,
             totalPayments: payments.length,
             totalAmount: payments.reduce(
                 (acc,payment) => acc + payment.amount,0
             ),
-            lastFivePayments:payments.slice(-5)
+            recentThreePayments
         }
         return res.status(200).json({
             success: true,
