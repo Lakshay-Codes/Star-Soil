@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import PageTitle from "../../../components/page-title";
 import { PlanetTypeProps } from "../../../interfaces";
-import { message, Progress, Spin, Tag } from "antd";
+import { message, Progress, Spin, Tag, Radio, Input } from "antd";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { format } from "indian-number-format";
@@ -9,6 +9,8 @@ import { format } from "indian-number-format";
 function HomePage() {
   const [loading, setLoading] = useState(false);
   const [planets, setPlanets] = useState<PlanetTypeProps[]>([]);
+  const [filter, setFilter] = useState('all');
+  const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
 
   const getData = async () => {
@@ -27,6 +29,25 @@ function HomePage() {
     getData();
   }, []);
 
+  const filteredPlanets = planets.filter((planet) => {
+    let matchesFilter;
+    if (filter === 'all') {
+      matchesFilter = true;
+    } else if (filter === 'not-for-sale') {
+      matchesFilter = !planet.isActive;
+    } else if (filter === 'no-land-left') {
+      matchesFilter = planet.isActive && planet.collectedAmount >= planet.targetAmount;
+    } else if (filter === 'sale') {
+      matchesFilter = planet.isActive && planet.collectedAmount < planet.targetAmount;
+    } else {
+      matchesFilter = true;
+    }
+
+    const matchesSearch = planet.name.toLowerCase().includes(searchQuery.toLowerCase());
+
+    return matchesFilter && matchesSearch;
+  });
+
   return (
     <div className="p-5">
       <PageTitle title="Explore Planets" />
@@ -37,13 +58,27 @@ function HomePage() {
           <span className="bg-slate-800 text-slate-200 px-4 py-2 rounded-full font-medium">Special Offer: ₹5,000 per acre on all planets!</span>
         </div>
       </div>
+      <div className="flex flex-col items-center gap-4 mb-6">
+        <Radio.Group value={filter} onChange={(e) => setFilter(e.target.value)}>
+          <Radio.Button value="all">All</Radio.Button>
+          <Radio.Button value="sale">Sale!</Radio.Button>
+          <Radio.Button value="no-land-left">No Land Left!</Radio.Button>
+          <Radio.Button value="not-for-sale">Not For Sale!</Radio.Button>
+        </Radio.Group>
+        <Input.Search
+          placeholder="Search planets by name..."
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="max-w-md"
+          allowClear
+        />
+      </div>
       {loading && (
         <div className="flex justify-center items-center h-[400px]">
           <Spin size="large" />
         </div>
       )}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-5">
-        {planets.map((planet) => (
+        {filteredPlanets.map((planet) => (
           <div
             key={planet._id}
             className="bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer border border-gray-200 hover:border-slate-800"

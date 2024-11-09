@@ -19,7 +19,7 @@ Live Link: https://star-soil-q7si.vercel.app
 - Browse detailed celestial property listings
 - Comprehensive property information management
 - Advanced filtering and search capabilities
-- Interactive celestial maps and visualization
+- Interactive celestial maps and visualization (coming soon)
 
 ### 💫 Payment Processing
 - Seamless transaction workflow
