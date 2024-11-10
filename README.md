@@ -7,6 +7,9 @@ Star Soil is a comprehensive, full-stack platform designed to connect space enth
 ## 🔗 Deployment
 Live Link: https://star-soil-q7si.vercel.app
 
+## 🔗 60 secs demo video (Payment is not shown here due to 1 min constraint, you may try payment via deployed site yourself :))
+Demo Video Link : [Best if you just want quick idea about website](https://drive.google.com/file/d/1Zqt3Q2lGZey3vs02Z3XMmyVZj7UWqvsX/view)
+
 ## ✨ Core Features
 
 ### 🔐 User Authentication
